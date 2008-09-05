@@ -303,8 +303,6 @@ namespace Platinum.PropertyEditors
         {
             if ( !_lastCommittedValue.Equals( _items[_comboBox.SelectedIndex] ) )
             {
-                Console.WriteLine( "COMMITTED" );
-
                 _raisePropertyChangeCommittedEvent(
                     new PropertyChangeEventArgs(
                         _lastCommittedValue,

@@ -76,6 +76,8 @@ namespace Platinum.PropertyEditors
         {
             InitializeComponent();
             _customSourceListEditor.ItemSource = _boolSource;
+
+            _propertyGridItemAssigned += new Action<PropertyGridItem>( _handlePropertyGridItemAssigned );
         }
         #endregion
 
@@ -103,6 +105,19 @@ namespace Platinum.PropertyEditors
         void _customSourceListEditor_SelectedItemRemovedFromSource( object sender, ItemEventArgs e )
         {
             throw new Exception( "This should not happen." );
+        }
+
+        void _handlePropertyGridItemAssigned( PropertyGridItem gridItem )
+        {
+            gridItem.IsSelectedChanged += new EventHandler( _gridItem_IsSelectedChanged );
+        }
+
+        void _gridItem_IsSelectedChanged( object sender, EventArgs e )
+        {
+            if ( PropertyGridItem.IsSelected )
+            {
+                _customSourceListEditor.Focus();
+            }
         }
         #endregion
     }

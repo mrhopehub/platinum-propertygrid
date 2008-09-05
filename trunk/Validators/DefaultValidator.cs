@@ -103,6 +103,19 @@ namespace Platinum.Validators
                 return null;
             }
         }
+
+        public T ConvertTo<T>( Object o ) where T : class
+        {
+            try
+            {
+                return (T) _typeConverter.ConvertTo( o, typeof( T ) );
+            }
+            catch
+            {
+                _message = "Cannot convert object to type " + typeof( T ).ToString();
+                return null;
+            }
+        }
         #endregion
 
         #region Public Static Methods
