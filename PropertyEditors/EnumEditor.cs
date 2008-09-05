@@ -79,11 +79,25 @@ namespace Platinum.PropertyEditors
 
             _customSourceListEditor.PropertyDescriptorChanged += 
                 _customSourceListEditor_PropertyDescriptorChanged;
+
+            _propertyGridItemAssigned += new Action<PropertyGridItem>( _handlePropertyGridItemAssigned );
+        }
+
+        void _handlePropertyGridItemAssigned( PropertyGridItem gridItem )
+        {
+            gridItem.IsSelectedChanged += new EventHandler( _gridItem_IsSelectedChanged );
+        }
+
+        void _gridItem_IsSelectedChanged( object sender, EventArgs e )
+        {
+            if ( PropertyGridItem.IsSelected )
+            {
+                _customSourceListEditor.Focus();
+            }
         }
         #endregion
 
         #region Properties
-
         public override BoundPropertyDescriptor PropertyDescriptor
         {
             get

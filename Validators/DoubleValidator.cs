@@ -80,6 +80,27 @@ namespace Platinum.Validators
                 }
             }
         }
+
+        public T ConvertTo<T>( Object o ) where T : class
+        {
+            if ( typeof( T ) == typeof( String ) )
+            {
+                Object ret = ( ( (double) o ).ToString( _formatProvider ) );
+                return (T) ret;
+            }
+            else
+            {
+                try
+                {
+                    return (T) _typeConverter.ConvertTo( o, typeof( T ) );
+                }
+                catch
+                {
+                    _message = "Could not convert " + o.ToString() + " to " + typeof( T ).ToString();
+                    return null;
+                }
+            }
+        }
         #endregion
 
         #region Properties

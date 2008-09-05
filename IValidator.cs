@@ -40,6 +40,14 @@ namespace Platinum
         Object ValidateValue( Object o );
 
         /// <summary>
+        /// Tries to convert an object of the validated type to the given type T.
+        /// </summary>
+        /// <typeparam name="T">The target type of the conversion.</typeparam>
+        /// <param name="o">The object of the validated type that should be converted.</param>
+        /// <returns>The converted object or null if the conversion failed.</returns>
+        T ConvertTo<T>( Object o ) where T : class;
+
+        /// <summary>
         /// The type validated by this validator.
         /// </summary>
         Type ValidatedType { get; }

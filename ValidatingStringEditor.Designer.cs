@@ -43,7 +43,8 @@
             this._textBox.Size = new System.Drawing.Size( 200, 15 );
             this._textBox.TabIndex = 0;
             this._textBox.TextChanged += new System.EventHandler( this._textBox_TextChanged );
-            this._textBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler( this._textBox_KeyPress );
+            this._textBox.KeyDown += new System.Windows.Forms.KeyEventHandler( this._textBox_KeyDown );
+            this._textBox.Leave += new System.EventHandler( this._textBox_Leave );
             // 
             // ValidatingStringEditor
             // 

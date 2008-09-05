@@ -104,6 +104,11 @@ namespace Platinum.Validators
                 return null;
             }
         }
+
+        public U ConvertTo<U>( Object o ) where U : class
+        {
+            return _validator.ConvertTo<U>( o );
+        }
         #endregion
     }
 }
