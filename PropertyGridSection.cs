@@ -114,18 +114,19 @@ namespace Platinum
         }
         #endregion
 
-        #region Events
-        internal event SplitterCancelEventHandler SplitterMoving;
-        internal event EventHandler SelectedItemChanged;
-        internal event EventHandler ExpandStateChanged;
-        #endregion
-
         #region Variables
         bool _isExpanded = true;
         List<ItemEx> _items = new List<ItemEx>();
         PropertyGridItem _selectedItem;
         bool _splitterMoving;
         PropertyGrid _owner;
+        bool _updatingSelectedItem;
+        #endregion
+
+        #region Events
+        internal event SplitterCancelEventHandler SplitterMoving;
+        internal event EventHandler SelectedItemChanged;
+        internal event EventHandler ExpandStateChanged;
         #endregion
 
         #region Constructor
@@ -190,8 +191,9 @@ namespace Platinum
             }
             private set 
             {
-                if ( value != _selectedItem )
-                {       
+                if ( value != _selectedItem && !_updatingSelectedItem )
+                {
+                    _updatingSelectedItem = true;
                     Debug.Assert( value == null || 
                         _items.Count( x => x.Item == value ) == 1 );
 
@@ -213,6 +215,7 @@ namespace Platinum
                     {
                         SelectedItemChanged( this, EventArgs.Empty );
                     }
+                    _updatingSelectedItem = false;
                 }
             }
         }

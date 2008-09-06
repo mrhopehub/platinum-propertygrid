@@ -95,7 +95,7 @@ namespace Platinum
 
                     if ( IsSelectedChanged != null )
                     { 
-                        IsSelectedChanged( this, new EventArgs() );
+                        IsSelectedChanged( this, EventArgs.Empty );
                     }
                 }
             }
