@@ -69,17 +69,16 @@ namespace Platinum
                 IEnumerable<DescriptionAttribute> descriptionAttributes =
                     desc.Attributes.OfType<DescriptionAttribute>();
 
-                Control editor = (Control)
+                PropertyEditorBase editor = 
                     DefaultPropertyEditorMap.GetEditor( desc.PropertyType );
 
                 BoundPropertyDescriptor propDesc = new BoundPropertyDescriptor();
                 propDesc.PropertyDescriptor = desc;
                 propDesc.PropertyOwner = o;
 
-                ( (PropertyEditorBase) editor ).PropertyDescriptor = propDesc;
+                editor.PropertyDescriptor = propDesc;
 
-                PropertyGridItem item = section.Items.Add( desc.Name, 
-                    (PropertyEditorBase) editor );
+                PropertyGridItem item = section.Items.Add( desc.Name, editor );
 
                 item.EditorPanel.Height = editor.Height;
                 editor.Width = item.EditorPanel.Width;
