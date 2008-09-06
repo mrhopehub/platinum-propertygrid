@@ -30,7 +30,7 @@
         {
             this._splitContainer = new System.Windows.Forms.SplitContainer();
             this._sectionPanelScrollBar = new System.Windows.Forms.VScrollBar();
-            this._sectionPanel2 = new System.Windows.Forms.Panel();
+            this._sectionPanel = new System.Windows.Forms.Panel();
             this._helpTextLabel = new System.Windows.Forms.Label();
             this._helpTextTitleLabel = new System.Windows.Forms.Label();
             this._splitContainer.Panel1.SuspendLayout();
@@ -52,7 +52,7 @@
             // 
             this._splitContainer.Panel1.BackColor = System.Drawing.SystemColors.Window;
             this._splitContainer.Panel1.Controls.Add( this._sectionPanelScrollBar );
-            this._splitContainer.Panel1.Controls.Add( this._sectionPanel2 );
+            this._splitContainer.Panel1.Controls.Add( this._sectionPanel );
             this._splitContainer.Panel1.SizeChanged += new System.EventHandler( this._splitContainer_Panel1_SizeChanged );
             // 
             // _splitContainer.Panel2
@@ -76,14 +76,14 @@
             this._sectionPanelScrollBar.TabIndex = 1;
             this._sectionPanelScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler( this._sectionPanelScrollBar_Scroll );
             // 
-            // _sectionPanel2
+            // _sectionPanel
             // 
-            this._sectionPanel2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this._sectionPanel2.BackColor = System.Drawing.SystemColors.Window;
-            this._sectionPanel2.Location = new System.Drawing.Point( 6, 3 );
-            this._sectionPanel2.Name = "_sectionPanel2";
-            this._sectionPanel2.Size = new System.Drawing.Size( 238, 200 );
-            this._sectionPanel2.TabIndex = 0;
+            this._sectionPanel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this._sectionPanel.BackColor = System.Drawing.SystemColors.Window;
+            this._sectionPanel.Location = new System.Drawing.Point( 0, 0 );
+            this._sectionPanel.Name = "_sectionPanel";
+            this._sectionPanel.Size = new System.Drawing.Size( 238, 200 );
+            this._sectionPanel.TabIndex = 0;
             // 
             // _helpTextLabel
             // 
@@ -128,7 +128,7 @@
         private System.Windows.Forms.SplitContainer _splitContainer;
         private System.Windows.Forms.Label _helpTextLabel;
         private System.Windows.Forms.Label _helpTextTitleLabel;
-        private System.Windows.Forms.Panel _sectionPanel2;
+        private System.Windows.Forms.Panel _sectionPanel;
         private System.Windows.Forms.VScrollBar _sectionPanelScrollBar;
     }
 }
