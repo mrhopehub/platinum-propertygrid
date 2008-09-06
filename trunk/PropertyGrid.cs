@@ -165,10 +165,15 @@ namespace Platinum
                     {
                         PropertyGridItem selectedItem = section.SelectedItem;
 
-                        if ( selectedItem != null && selectedItem.Description != null )
+                        if ( selectedItem != null )
                         {
-                            _helpTextTitleLabel.Text = selectedItem.Name;
-                            _helpTextLabel.Text = selectedItem.Description;
+                            if ( selectedItem.Description != null )
+                            {
+                                _helpTextTitleLabel.Text = selectedItem.Name;
+                                _helpTextLabel.Text = selectedItem.Description;
+                            }
+
+                            _scrollToGridItem( selectedItem );
                         }
                     }
                 }
@@ -321,6 +326,45 @@ namespace Platinum
                 }
 
                 y += section.Height;
+            }
+        }
+
+        void _scrollToGridItem( PropertyGridItem item )
+        {
+            Rectangle displayRect =
+                _splitContainer.Panel1.RectangleToScreen(
+                    new Rectangle( 
+                        0,
+                        0, 
+                        _splitContainer.Panel1.Width, 
+                        _splitContainer.Panel1.Height 
+                        )
+                    );
+
+            Rectangle editorPanelRect =
+                item.EditorPanel.RectangleToScreen(
+                    new Rectangle( Point.Empty, item.EditorPanel.Size )
+                    );
+
+            if ( editorPanelRect.Height >= displayRect.Height )
+                return;
+
+            if ( editorPanelRect.Bottom > displayRect.Bottom )
+            {
+                int offset =
+                    ( displayRect.Bottom - editorPanelRect.Height ) -
+                    editorPanelRect.Top;
+
+                _sectionPanelScrollBar.Value -= offset;
+                _sectionPanel.Top += offset;
+            }
+            else
+            if ( editorPanelRect.Top < displayRect.Top )
+            {
+                int offset = displayRect.Top - editorPanelRect.Top;
+
+                _sectionPanelScrollBar.Value -= offset;
+                _sectionPanel.Top += offset;
             }
         }
         #endregion
