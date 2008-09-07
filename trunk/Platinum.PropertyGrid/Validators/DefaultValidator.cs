@@ -156,6 +156,7 @@ namespace Platinum.Validators
             _defaultValueFactories = new Dictionary<Type, Func<Object>>();
 
             RegisterDefaultValidator( typeof( float ), typeof( FloatValidator ) );
+            RegisterDefaultValueFactory( typeof( String ), () => "" );
         }
         #endregion
     }

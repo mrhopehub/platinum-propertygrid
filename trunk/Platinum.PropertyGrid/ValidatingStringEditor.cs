@@ -55,6 +55,7 @@ namespace Platinum
         #endregion
 
         #region Properties
+        [Browsable( false )]
         public IValidator Validator
         {
             get { return _validator; }
@@ -72,6 +73,8 @@ namespace Platinum
             }
         }
 
+        [Browsable( false )]
+        [NonSerialized]
         public override BoundPropertyDescriptor PropertyDescriptor
         {
             get
@@ -94,6 +97,12 @@ namespace Platinum
                     _lastValue = _currentValue;
                     _lastCommittedValue = _currentValue;
                     _textBox.Text = _validator.ConvertTo<String>( _currentValue );
+                }
+                else
+                {
+                    _currentValue = null;
+                    _lastCommittedValue = null;
+                    _lastValue = null;
                 }
             }
         }
@@ -149,7 +158,7 @@ namespace Platinum
                     _isCurrentTextValid = true;
 
                     // Do not raise the CHANGE event if there is no change
-                    if ( _currentValue.Equals( value ) )
+                    if ( _valuesEqual( _currentValue, value ) )
                         return;
 
                     _lastValue = _currentValue;
@@ -195,7 +204,7 @@ namespace Platinum
         {
             Debug.Assert( _isCurrentTextValid );
 
-            if ( !_lastCommittedValue.Equals( _currentValue ) )
+            if ( !_valuesEqual( _lastCommittedValue, _currentValue ) )
             {
                 PropertyChangeEventArgs e =
                         new PropertyChangeEventArgs( _lastCommittedValue, _currentValue );
@@ -210,8 +219,8 @@ namespace Platinum
         void _revert()
         {
             if ( !_isCurrentTextValid ||
-                 !_lastCommittedValue.Equals( _currentValue ) ||
-                 !_lastCommittedValue.Equals( _lastValue ) )
+                 !_valuesEqual( _lastCommittedValue, _currentValue ) ||
+                 !_valuesEqual( _lastCommittedValue, _lastValue ) )
             {
                 PropertyChangeRevertedEventArgs e =
                     new PropertyChangeRevertedEventArgs( _lastCommittedValue );
@@ -221,6 +230,18 @@ namespace Platinum
                 _lastValue = _lastCommittedValue;
                 _currentValue = _lastCommittedValue;
                 _textBox.Text = _validator.ConvertTo<String>( _lastCommittedValue );
+            }
+        }
+
+        static bool _valuesEqual( Object value1, Object value2 )
+        {
+            if ( value1 != null )
+            {
+                return value2 != null ? value1.Equals( value2 ) : false;
+            }
+            else
+            {
+                return value2 == null;
             }
         }
 

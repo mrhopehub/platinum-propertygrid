@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -50,8 +50,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoundPropertyDescriptor.cs" />
+    <Compile Include="DefaultObjectAdapter.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DefaultPropertyEditorMap.cs" />
-    <Compile Include="DefaultPropertyGridFiller.cs" />
+    <Compile Include="DefaultPropertyGridFiller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="IPropertyGridObjectAdapter.cs" />
     <Compile Include="PropertyEditorBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
