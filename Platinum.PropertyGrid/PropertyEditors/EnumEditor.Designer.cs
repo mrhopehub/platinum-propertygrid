@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this._customSourceListEditor = new PropertyEditors.CustomSourceListEditor();
+            this._customSourceListEditor = new Platinum.PropertyEditors.CustomSourceListEditor();
             this.SuspendLayout();
             // 
             // _customSourceListEditor
@@ -42,6 +42,10 @@
             this._customSourceListEditor.Name = "_customSourceListEditor";
             this._customSourceListEditor.Size = new System.Drawing.Size( 256, 19 );
             this._customSourceListEditor.TabIndex = 0;
+            this._customSourceListEditor.PropertyChanging += new System.EventHandler<Platinum.PropertyChangeEventArgs>( this._customSourceListEditor_PropertyChanging );
+            this._customSourceListEditor.PropertyChangeCommitted += new System.EventHandler<Platinum.PropertyChangeEventArgs>( this._customSourceListEditor_PropertyChangeCommitted );
+            this._customSourceListEditor.PropertyDescriptorChanged += new System.EventHandler<Platinum.PropertyDescriptorChangedEventArgs>( this._customSourceListEditor_PropertyDescriptorChanged );
+            this._customSourceListEditor.PropertyChangeReverted += new System.EventHandler<Platinum.PropertyChangeRevertedEventArgs>( this._customSourceListEditor_PropertyChangeReverted );
             // 
             // EnumEditor
             // 

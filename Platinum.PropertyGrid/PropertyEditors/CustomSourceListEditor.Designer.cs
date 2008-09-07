@@ -43,7 +43,7 @@
             this._comboBox.ItemHeight = 13;
             this._comboBox.Location = new System.Drawing.Point( 0, 0 );
             this._comboBox.Name = "_comboBox";
-            this._comboBox.Size = new System.Drawing.Size( 256, 19 );
+            this._comboBox.Size = new System.Drawing.Size( 254, 19 );
             this._comboBox.TabIndex = 0;
             this._comboBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler( this._comboBox_DrawItem );
             this._comboBox.SelectionChangeCommitted += new System.EventHandler( this._comboBox_SelectionChangeCommitted );

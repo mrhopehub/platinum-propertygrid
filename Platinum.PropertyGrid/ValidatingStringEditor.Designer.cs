@@ -37,11 +37,13 @@
             this._textBox.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( ( System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left )
                         | System.Windows.Forms.AnchorStyles.Right ) ) );
             this._textBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this._textBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this._textBox.Font = new System.Drawing.Font( "Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ) );
-            this._textBox.Location = new System.Drawing.Point( 0, 4 );
+            this._textBox.Location = new System.Drawing.Point( 0, 3 );
             this._textBox.Name = "_textBox";
             this._textBox.Size = new System.Drawing.Size( 200, 15 );
             this._textBox.TabIndex = 0;
+            this._textBox.Tag = "";
             this._textBox.TextChanged += new System.EventHandler( this._textBox_TextChanged );
             this._textBox.KeyDown += new System.Windows.Forms.KeyEventHandler( this._textBox_KeyDown );
             this._textBox.Leave += new System.EventHandler( this._textBox_Leave );

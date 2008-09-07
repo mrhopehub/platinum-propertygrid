@@ -35,6 +35,9 @@ using System.Collections;
 
 namespace Platinum.PropertyEditors
 {
+    /// <summary>
+    /// PropertyEditor for all non-flag enums.
+    /// </summary>
     [PropertyEditor( typeof( Enum ) )]
     public partial class EnumEditor : PropertyEditorBase
     {
@@ -120,6 +123,21 @@ namespace Platinum.PropertyEditors
         #endregion
 
         #region Event Handlers
+        void _customSourceListEditor_PropertyChangeCommitted( object sender, PropertyChangeEventArgs e )
+        {
+            _raisePropertyChangeCommittedEvent( e );
+        }
+
+        void _customSourceListEditor_PropertyChangeReverted( object sender, PropertyChangeRevertedEventArgs e )
+        {
+            _raisePropertyChangeRevertedEvent( e );
+        }
+
+        void _customSourceListEditor_PropertyChanging( object sender, PropertyChangeEventArgs e )
+        {
+            _raisePropertyChangingEvent( e );
+        }
+
         void _customSourceListEditor_PropertyDescriptorChanged( object sender, PropertyDescriptorChangedEventArgs e )
         {
             _raisePropertyDescriptorChangedEvent( e );
