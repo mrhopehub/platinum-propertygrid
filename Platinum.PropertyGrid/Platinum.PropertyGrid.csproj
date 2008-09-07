@@ -54,9 +54,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DefaultPropertyEditorMap.cs" />
-    <Compile Include="DefaultPropertyGridFiller.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="IPropertyGridObjectAdapter.cs" />
     <Compile Include="PropertyEditorBase.cs">
       <SubType>UserControl</SubType>
