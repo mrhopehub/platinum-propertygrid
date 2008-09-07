@@ -1,4 +1,4 @@
-﻿#region LGPL.
+#region LGPL.
 // -----------------------------------------------------------------------------
 // This source file is part of Platinum.PropertyGrid
 // For the latest info, see http://code.google.com/p/platinum-propertygrid/
@@ -74,7 +74,6 @@ namespace Platinum
         }
 
         [Browsable( false )]
-        [NonSerialized]
         public override BoundPropertyDescriptor PropertyDescriptor
         {
             get

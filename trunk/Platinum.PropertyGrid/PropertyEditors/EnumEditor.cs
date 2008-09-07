@@ -38,7 +38,7 @@ namespace Platinum.PropertyEditors
     /// <summary>
     /// PropertyEditor for all non-flag enums.
     /// </summary>
-    [PropertyEditor( typeof( Enum ) )]
+    [IsDefaultPropertyEditorOf( typeof( Enum ) )]
     public partial class EnumEditor : PropertyEditorBase
     {
         #region EnumItemSource class

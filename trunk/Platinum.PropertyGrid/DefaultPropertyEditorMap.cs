@@ -39,7 +39,7 @@ namespace Platinum
 
         static DefaultPropertyEditorMap()
         {
-            Type attributeType = typeof( PropertyEditorAttribute );
+            Type attributeType = typeof( IsDefaultPropertyEditorOfAttribute );
 
             foreach ( Assembly a in AppDomain.CurrentDomain.GetAssemblies() )
             {
@@ -48,7 +48,7 @@ namespace Platinum
 
                 foreach ( Type editor in editors )
                 {
-                    var attributes = editor.GetCustomAttributes( attributeType, true ).Cast<PropertyEditorAttribute>();
+                    var attributes = editor.GetCustomAttributes( attributeType, true ).Cast<IsDefaultPropertyEditorOfAttribute>();
 
                     foreach ( var attribute in attributes )
                     {
