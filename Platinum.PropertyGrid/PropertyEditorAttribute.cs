@@ -30,11 +30,11 @@ using System.Text;
 namespace Platinum
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class PropertyEditorAttribute : Attribute
+    public class IsDefaultPropertyEditorOfAttribute : Attribute
     {
         public readonly Type TargetType;
 
-        public PropertyEditorAttribute( Type type )
+        public IsDefaultPropertyEditorOfAttribute( Type type )
         {
             TargetType = type;
         }

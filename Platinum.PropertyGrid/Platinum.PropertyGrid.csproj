@@ -58,7 +58,6 @@
     <Compile Include="PropertyEditorBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="IPropertyGridFiller.cs" />
     <Compile Include="IPropertyGridItemCollection.cs" />
     <Compile Include="IPropertyGridSection.cs" />
     <Compile Include="IPropertyGridSectionCollection.cs" />
@@ -101,10 +100,10 @@
     <Compile Include="PropertyEditors\EnumEditor.Designer.cs">
       <DependentUpon>EnumEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="ValidatingStringEditor.cs">
+    <Compile Include="PropertyEditors\ValidatingStringEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ValidatingStringEditor.Designer.cs">
+    <Compile Include="PropertyEditors\ValidatingStringEditor.Designer.cs">
       <DependentUpon>ValidatingStringEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Validators\DefaultValidator.cs" />
@@ -132,7 +131,7 @@
     <EmbeddedResource Include="PropertyEditors\EnumEditor.resx">
       <DependentUpon>EnumEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ValidatingStringEditor.resx">
+    <EmbeddedResource Include="PropertyEditors\ValidatingStringEditor.resx">
       <DependentUpon>ValidatingStringEditor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

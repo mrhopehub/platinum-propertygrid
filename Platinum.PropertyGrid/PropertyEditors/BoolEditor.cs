@@ -35,7 +35,7 @@ using System.Diagnostics;
 
 namespace Platinum.PropertyEditors
 {
-    [PropertyEditor( typeof( bool ) )]
+    [IsDefaultPropertyEditorOf( typeof( bool ) )]
     public partial class BoolEditor : PropertyEditorBase
     {
         #region BoolSource class
