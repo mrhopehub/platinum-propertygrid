@@ -100,7 +100,7 @@ namespace Platinum
         /// </remarks>
         public virtual BoundPropertyDescriptor PropertyDescriptor
         {
-            get { throw new NotImplementedException(); }
+            get { return new BoundPropertyDescriptor(); }
             set { throw new NotImplementedException(); }
         }
         

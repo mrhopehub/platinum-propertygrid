@@ -41,7 +41,7 @@
             this._textBox.Font = new System.Drawing.Font( "Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ) );
             this._textBox.Location = new System.Drawing.Point( 0, 3 );
             this._textBox.Name = "_textBox";
-            this._textBox.Size = new System.Drawing.Size( 200, 15 );
+            this._textBox.Size = new System.Drawing.Size( 256, 15 );
             this._textBox.TabIndex = 0;
             this._textBox.Tag = "";
             this._textBox.TextChanged += new System.EventHandler( this._textBox_TextChanged );
@@ -54,8 +54,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.Controls.Add( this._textBox );
+            this.MaximumSize = new System.Drawing.Size( 10000, 19 );
+            this.MinimumSize = new System.Drawing.Size( 0, 19 );
             this.Name = "ValidatingStringEditor";
-            this.Size = new System.Drawing.Size( 200, 19 );
+            this.Size = new System.Drawing.Size( 256, 19 );
             this.ResumeLayout( false );
             this.PerformLayout();
 
@@ -64,5 +66,7 @@
         #endregion
 
         private System.Windows.Forms.TextBox _textBox;
+
+
     }
 }
