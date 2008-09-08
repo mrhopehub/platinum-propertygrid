@@ -206,13 +206,16 @@ namespace Platinum.PropertyEditors
 
         void _comboBox_MouseLeave( object sender, EventArgs e )
         {
-            _textLabel.Visible = true;
+            if ( !_comboBox.ContainsFocus )
+            {
+                _textLabel.Visible = true;
+            }
         }
 
         void _comboBox_DropDownClosed( object sender, EventArgs e )
         {
             _revertValue();
-            _textLabel.Visible = true;
+            //_textLabel.Visible = true;
         }
 
         void _comboBox_Enter( object sender, EventArgs e )
@@ -249,12 +252,24 @@ namespace Platinum.PropertyEditors
 
         void _comboBox_Leave( object sender, EventArgs e )
         {
-            _textLabel.Visible = true;
+            if ( !_textLabel.ContainsFocus )
+            {
+                _textLabel.Visible = true;
+            }
         }
 
         void _comboBox_SelectionChangeCommitted( object sender, EventArgs e )
         {
             _commitValue();
+        }
+
+        void _comboBox_KeyDown( object sender, KeyEventArgs e )
+        {
+            if ( e.KeyCode == Keys.Enter )
+            {
+                //_commitValue();
+                SendKeys.Send( "{Tab}" );
+            }
         }
         #endregion
 

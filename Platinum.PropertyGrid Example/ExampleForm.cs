@@ -95,8 +95,13 @@ namespace Platinum.PropertyGrid_Example
                 }
             }
 
-
             public bool Boolean
+            {
+                get;
+                set;
+            }
+
+            public System.Drawing.Point APoint
             {
                 get;
                 set;
