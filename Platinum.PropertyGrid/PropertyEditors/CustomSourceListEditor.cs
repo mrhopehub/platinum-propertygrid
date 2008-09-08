@@ -60,6 +60,7 @@ namespace Platinum.PropertyEditors
         BoundPropertyDescriptor _propertyDescriptor;
         Object _lastCommittedValue;
         Object _lastValue;
+        bool _suppressEvents;
         #endregion
 
         #region Properties
@@ -114,33 +115,15 @@ namespace Platinum.PropertyEditors
             }
             set
             {
-                if ( value == _propertyDescriptor )
-                    return;
-
-                _propertyDescriptor = value;
-
-                if ( _propertyDescriptor.PropertyDescriptor != null &&
-                     _propertyDescriptor.PropertyOwner != null )
+                if ( value != _propertyDescriptor )
                 {
-                    _lastCommittedValue = 
-                        _propertyDescriptor.PropertyDescriptor.GetValue(
-                            _propertyDescriptor.PropertyOwner 
-                            );
+                    _propertyDescriptor = value;
+                    RefreshProperty();
 
-                    _lastValue = _lastCommittedValue;
-
-                    _selectItem( _lastCommittedValue );
-
-                    Debug.Assert( _comboBox.SelectedIndex >= 0 );
-                }
-                else
-                {
-                    _comboBox.SelectedIndex = -1;
-                }
-
-                _raisePropertyDescriptorChangedEvent( 
-                    new PropertyDescriptorChangedEventArgs( value ) 
+                    _raisePropertyDescriptorChangedEvent(
+                        new PropertyDescriptorChangedEventArgs( value )
                     );
+                }
             }
         }
         #endregion
@@ -149,6 +132,32 @@ namespace Platinum.PropertyEditors
         public CustomSourceListEditor()
         {
             InitializeComponent();
+        }
+        #endregion
+
+        #region Methods
+        public override void RefreshProperty()
+        {
+            _suppressEvents = true;
+            if ( !_propertyDescriptor.IsEmpty )
+            {
+                _lastCommittedValue =
+                    _propertyDescriptor.PropertyDescriptor.GetValue(
+                        _propertyDescriptor.PropertyOwner
+                        );
+
+                _lastValue = _lastCommittedValue;
+
+                
+                _selectItem( _lastCommittedValue );
+                
+                Debug.Assert( _comboBox.SelectedIndex >= 0 );
+            }
+            else
+            {
+                _comboBox.SelectedIndex = -1;
+            }
+            _suppressEvents = false;
         }
         #endregion
 
@@ -220,12 +229,15 @@ namespace Platinum.PropertyEditors
                 if ( _lastValue.Equals( _items[_comboBox.SelectedIndex] ) )
                     return;
 
-                _raisePropertyChangingEvent(
-                    new PropertyChangeEventArgs(
-                        _lastValue,
-                        _items[_comboBox.SelectedIndex]
-                        )
-                    );
+                if ( !_suppressEvents )
+                {
+                    _raisePropertyChangingEvent(
+                        new PropertyChangeEventArgs(
+                            _lastValue,
+                            _items[_comboBox.SelectedIndex]
+                            )
+                        );
+                }
 
                 _lastValue = _items[_comboBox.SelectedIndex];
             }
@@ -303,12 +315,15 @@ namespace Platinum.PropertyEditors
         {
             if ( !_lastCommittedValue.Equals( _items[_comboBox.SelectedIndex] ) )
             {
-                _raisePropertyChangeCommittedEvent(
-                    new PropertyChangeEventArgs(
-                        _lastCommittedValue,
-                        _items[_comboBox.SelectedIndex]
-                        )
-                    );
+                if ( !_suppressEvents )
+                {
+                    _raisePropertyChangeCommittedEvent(
+                        new PropertyChangeEventArgs(
+                            _lastCommittedValue,
+                            _items[_comboBox.SelectedIndex]
+                            )
+                        );
+                }
 
                 _lastCommittedValue = _items[_comboBox.SelectedIndex];
                 _lastValue = _lastCommittedValue;
@@ -327,9 +342,12 @@ namespace Platinum.PropertyEditors
             if ( !_lastCommittedValue.Equals( _items[_comboBox.SelectedIndex] ) ||
                  !_lastValue.Equals( _items[_comboBox.SelectedIndex] ) )
             {
-                _raisePropertyChangeRevertedEvent(
-                    new PropertyChangeRevertedEventArgs( _lastCommittedValue )
-                    );
+                if ( !_suppressEvents )
+                {
+                    _raisePropertyChangeRevertedEvent(
+                        new PropertyChangeRevertedEventArgs( _lastCommittedValue )
+                        );
+                }
 
                 _lastValue = _lastCommittedValue;
 
