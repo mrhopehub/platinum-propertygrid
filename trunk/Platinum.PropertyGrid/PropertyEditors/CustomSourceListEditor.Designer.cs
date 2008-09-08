@@ -52,6 +52,7 @@
             this._comboBox.Enter += new System.EventHandler( this._comboBox_Enter );
             this._comboBox.MouseLeave += new System.EventHandler( this._comboBox_MouseLeave );
             this._comboBox.DropDownClosed += new System.EventHandler( this._comboBox_DropDownClosed );
+            this._comboBox.KeyDown += new System.Windows.Forms.KeyEventHandler( this._comboBox_KeyDown );
             // 
             // _textLabel
             // 
