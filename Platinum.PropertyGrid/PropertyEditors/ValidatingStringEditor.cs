@@ -59,17 +59,24 @@ namespace Platinum
         public IValidator Validator
         {
             get { return _validator; }
-            set 
+            set
             {
-                Debug.Assert( _propertyDescriptor.IsEmpty,
-                    "PropertyDescriptor must not be set when the validator is changed." 
-                    );
-
                 _validator = value;
-                _currentValue = _validator.DefaultValue;
-                _lastValue = _currentValue;
-                _lastCommittedValue = _currentValue;
-                _textBox.Text = _validator.ConvertTo<String>( _currentValue );
+
+                if ( _validator != null )
+                {
+                    _currentValue = _validator.DefaultValue;
+                    _lastValue = _currentValue;
+                    _lastCommittedValue = _currentValue;
+                    _textBox.Text = _validator.ConvertTo<String>( _currentValue );
+                }
+                else
+                {
+                    _currentValue = null;
+                    _lastValue = null;
+                    _lastCommittedValue = null;
+                    _textBox.Text = String.Empty;
+                }
             }
         }
 
