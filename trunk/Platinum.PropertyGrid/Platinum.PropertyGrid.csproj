@@ -62,6 +62,12 @@
     <Compile Include="IPropertyGridSection.cs" />
     <Compile Include="IPropertyGridSectionCollection.cs" />
     <Compile Include="IValidator.cs" />
+    <Compile Include="PropertyEditors\PointEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PropertyEditors\PointEditor.Designer.cs">
+      <DependentUpon>PointEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="PropertyGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -112,6 +118,9 @@
     <Compile Include="Validators\RangedValueValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="PropertyEditors\PointEditor.resx">
+      <DependentUpon>PointEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PropertyGrid.resx">
       <DependentUpon>PropertyGrid.cs</DependentUpon>
     </EmbeddedResource>

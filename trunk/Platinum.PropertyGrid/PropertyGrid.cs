@@ -97,11 +97,15 @@ namespace Platinum
         #region Variables
         List<PropertyGridSection> _sections = new List<PropertyGridSection>();
         Color _sectionBackColor = Color.FromArgb( 233, 236, 250 );
+        Color _errorForeColor = Color.Black;
+        Color _errorBackColor = Color.Salmon;
         bool _updatingSelection;
         #endregion
 
         #region Events
         public event EventHandler<ColorChangedEventArgs> SectionBackColorChanged;
+        public event EventHandler<ColorChangedEventArgs> ErrorForeColorChanged;
+        public event EventHandler<ColorChangedEventArgs> ErrorBackColorChanged;
         #endregion
 
         #region Properties
@@ -113,13 +117,63 @@ namespace Platinum
             get { return _sectionBackColor; }
             set 
             {
-                Color oldColor = _sectionBackColor;
-                _sectionBackColor = value;
-
-                if ( SectionBackColorChanged != null )
+                if ( _sectionBackColor != value )
                 {
-                    ColorChangedEventArgs e = new ColorChangedEventArgs( oldColor, value );
-                    SectionBackColorChanged( this, e );
+                    Color oldColor = _sectionBackColor;
+                    _sectionBackColor = value;
+
+                    if ( SectionBackColorChanged != null )
+                    {
+                        SectionBackColorChanged( this, 
+                            new ColorChangedEventArgs( oldColor, value ) 
+                            );
+                    }
+                }
+            }
+        }
+
+        [Browsable( true )]
+        [Description( "The background color of PropertyEditors when a invalid value is encountered." )]
+        [Category( "Appearance" )]
+        public Color ErrorBackColor
+        {
+            get { return _errorBackColor; }
+            set 
+            {
+                if ( _errorBackColor != value )
+                {
+                    Color oldColor = _errorBackColor;
+                    _errorBackColor = value;
+
+                    if ( ErrorBackColorChanged != null )
+                    { 
+                        ErrorBackColorChanged( this,
+                            new ColorChangedEventArgs( oldColor, value )
+                            );
+                    }
+                }
+            }
+        }
+
+        [Browsable( true )]
+        [Description( "The text color of PropertyEditors when a invalid value is encountered." )]
+        [Category( "Appearance" )]
+        public Color ErrorForeColor
+        {
+            get { return _errorForeColor; }
+            set
+            {
+                if ( _errorForeColor != value )
+                {
+                    Color oldColor = _errorForeColor;
+                    _errorForeColor = value;
+
+                    if ( ErrorForeColorChanged != null )
+                    {
+                        ErrorForeColorChanged( this,
+                            new ColorChangedEventArgs( oldColor, value )
+                            );
+                    }
                 }
             }
         }

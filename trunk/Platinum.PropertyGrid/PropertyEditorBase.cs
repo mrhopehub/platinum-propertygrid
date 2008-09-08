@@ -29,6 +29,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace Platinum
 {
@@ -119,6 +120,43 @@ namespace Platinum
                     _propertyGridItemAssigned( value );
                 }
             }
+        }
+
+        public Color ErrorForeColor
+        {
+            get
+            {
+                if ( _propertyGridItem != null )
+                {
+                    return _propertyGridItem.Owner.Owner.ErrorForeColor;
+                }
+                else
+                {
+                    return Color.Black;
+                }                
+            }
+        }
+
+        public Color ErrorBackColor
+        {
+            get
+            {
+                if ( _propertyGridItem != null )
+                {
+                    return _propertyGridItem.Owner.Owner.ErrorBackColor;
+                }
+                else
+                {
+                    return Color.Salmon;
+                }
+            }
+        }
+        #endregion
+
+        #region Methods
+        public virtual void RefreshProperty()
+        {
+            throw new NotImplementedException();
         }
         #endregion
 

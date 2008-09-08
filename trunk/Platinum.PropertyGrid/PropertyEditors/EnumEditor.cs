@@ -101,6 +101,7 @@ namespace Platinum.PropertyEditors
         #endregion
 
         #region Properties
+        [Browsable( false )]
         public override BoundPropertyDescriptor PropertyDescriptor
         {
             get
@@ -119,6 +120,13 @@ namespace Platinum.PropertyEditors
                     _customSourceListEditor.PropertyDescriptor = value;
                 }
             }
+        }
+        #endregion
+
+        #region Methods
+        public override void RefreshProperty()
+        {
+            _customSourceListEditor.RefreshProperty();
         }
         #endregion
 

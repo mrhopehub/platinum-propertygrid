@@ -64,10 +64,4 @@ namespace Platinum
         /// </summary>
         Object DefaultValue { get; }
     }
-
-    public static class ValidatorInvalidColor
-    {
-        public static readonly Color BackGround = Color.Salmon;
-        public static readonly Color ForeGround = Color.Black;
-    }
 }

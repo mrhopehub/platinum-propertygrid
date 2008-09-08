@@ -43,6 +43,7 @@ namespace Platinum
         Object _lastValue;
         Object _currentValue;
         Object _lastCommittedValue;
+        bool _suppressEvents;
         #endregion
 
         #region Constructor
@@ -65,10 +66,7 @@ namespace Platinum
 
                 if ( _validator != null )
                 {
-                    _currentValue = _validator.DefaultValue;
-                    _lastValue = _currentValue;
-                    _lastCommittedValue = _currentValue;
-                    _textBox.Text = _validator.ConvertTo<String>( _currentValue );
+                    RefreshProperty();
                 }
                 else
                 {
@@ -89,27 +87,40 @@ namespace Platinum
             }
             set
             {
-                if ( value == _propertyDescriptor )
-                    return;
-                
-                _propertyDescriptor = value;
-
-                if ( !_propertyDescriptor.IsEmpty )
+                if ( value != _propertyDescriptor )
                 {
-                    _currentValue = _propertyDescriptor.PropertyDescriptor.GetValue(
-                        _propertyDescriptor.PropertyOwner
-                        );
+                    _propertyDescriptor = value;
+                    RefreshProperty();
 
-                    _lastValue = _currentValue;
-                    _lastCommittedValue = _currentValue;
-                    _textBox.Text = _validator.ConvertTo<String>( _currentValue );
+                    _raisePropertyDescriptorChangedEvent(
+                        new PropertyDescriptorChangedEventArgs( value )
+                    );
                 }
-                else
-                {
-                    _currentValue = null;
-                    _lastCommittedValue = null;
-                    _lastValue = null;
-                }
+            }
+        }
+        #endregion
+
+        #region Methods
+        public override void RefreshProperty()
+        {
+            if ( !_propertyDescriptor.IsEmpty )
+            {
+                _currentValue = _propertyDescriptor.PropertyDescriptor.GetValue(
+                    _propertyDescriptor.PropertyOwner
+                    );
+
+                _suppressEvents = true;
+                _textBox.Text = _validator.ConvertTo<String>( _currentValue );
+                _suppressEvents = false;
+
+                _lastValue = _currentValue;
+                _lastCommittedValue = _currentValue;
+            }
+            else
+            {
+                _currentValue = null;
+                _lastCommittedValue = null;
+                _lastValue = null;
             }
         }
         #endregion
@@ -125,6 +136,7 @@ namespace Platinum
                 if ( _isCurrentTextValid )
                 {
                     _commit();
+                    SendKeys.Send( "{Tab}" );
                 }
                 else
                 {
@@ -151,9 +163,9 @@ namespace Platinum
 
                 if ( value == null )
                 {
-                    _textBox.ForeColor = ValidatorInvalidColor.ForeGround;
-                    _textBox.BackColor = ValidatorInvalidColor.BackGround;
-                    BackColor = ValidatorInvalidColor.BackGround;
+                    _textBox.ForeColor = ErrorForeColor;
+                    _textBox.BackColor = ErrorBackColor;
+                    BackColor = ErrorBackColor;
                     _isCurrentTextValid = false;
                 }
                 else
@@ -163,17 +175,19 @@ namespace Platinum
                     BackColor = Color.FromKnownColor( KnownColor.Window );
                     _isCurrentTextValid = true;
 
-                    // Do not raise the CHANGE event if there is no change
+                    // Do not raise the CHANGING event if there is no change
                     if ( _valuesEqual( _currentValue, value ) )
                         return;
 
                     _lastValue = _currentValue;
                     _currentValue = value;
 
-                    PropertyChangeEventArgs args =
-                            new PropertyChangeEventArgs( _lastValue, _currentValue );
-
-                    _raisePropertyChangingEvent( args );
+                    if ( !_suppressEvents )
+                    {
+                        _raisePropertyChangingEvent(
+                            new PropertyChangeEventArgs( _lastValue, _currentValue ) 
+                            );
+                    }
                 }
             }
         }
@@ -205,7 +219,6 @@ namespace Platinum
         #endregion
 
         #region Private Methods
-
         void _commit()
         {
             Debug.Assert( _isCurrentTextValid );
@@ -250,7 +263,6 @@ namespace Platinum
                 return value2 == null;
             }
         }
-
         #endregion
     }
 }

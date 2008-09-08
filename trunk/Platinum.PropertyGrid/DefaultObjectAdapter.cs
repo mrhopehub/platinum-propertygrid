@@ -46,9 +46,28 @@ namespace Platinum
                 _property = property;
                 _editor = editor;
 
-                _editor.PropertyChanging += _editor_PropertyChange;
-                _editor.PropertyChangeCommitted += _editor_PropertyChange;
+                _editor.PropertyChanging += _editor_PropertyChanging;
+                _editor.PropertyChangeCommitted += _editor_PropertyChangeCommitted;
                 _editor.PropertyChangeReverted += _editor_PropertyChangeReverted;
+            }
+
+            void _editor_PropertyChanging( object sender,
+                PropertyChangeEventArgs e )
+            {
+                _property.PropertyDescriptor.SetValue(
+                    _property.PropertyOwner,
+                    e.NewValue
+                    );
+            }
+            void _editor_PropertyChangeCommitted( object sender,
+                PropertyChangeEventArgs e )
+            {
+                _property.PropertyDescriptor.SetValue(
+                    _property.PropertyOwner,
+                    e.NewValue
+                    );
+
+                _editor.RefreshProperty();
             }
 
             void _editor_PropertyChangeReverted( object sender, 
@@ -58,16 +77,11 @@ namespace Platinum
                     _property.PropertyOwner,
                     e.RestoredValue
                     );
+
+                _editor.RefreshProperty();
             }
 
-            void _editor_PropertyChange( object sender, 
-                PropertyChangeEventArgs e )
-            {
-                _property.PropertyDescriptor.SetValue(
-                    _property.PropertyOwner,
-                    e.NewValue
-                    );
-            }
+            
         }
 
         public object SelectedObject

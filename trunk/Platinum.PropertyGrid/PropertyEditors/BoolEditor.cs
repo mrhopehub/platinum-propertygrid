@@ -61,6 +61,7 @@ namespace Platinum.PropertyEditors
         #endregion
 
         #region Properties
+        [Browsable( false )]
         public override BoundPropertyDescriptor PropertyDescriptor
         {
             get { return _customSourceListEditor.PropertyDescriptor; }
@@ -78,6 +79,13 @@ namespace Platinum.PropertyEditors
             _customSourceListEditor.ItemSource = _boolSource;
 
             _propertyGridItemAssigned += new Action<PropertyGridItem>( _handlePropertyGridItemAssigned );
+        }
+        #endregion
+
+        #region Methods
+        public override void RefreshProperty()
+        {
+            _customSourceListEditor.RefreshProperty();
         }
         #endregion
 
