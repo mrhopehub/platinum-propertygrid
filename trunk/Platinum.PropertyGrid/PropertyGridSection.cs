@@ -27,7 +27,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -66,7 +65,14 @@ namespace Platinum
             {
                 get 
                 { 
-                    return _owner._items.SingleOrDefault( x => x.Item.Name == name ).Item; 
+                    int index = _owner._items.FindIndex( 
+                        delegate( ItemEx item )
+                        {
+                            return item.Item.Name == name;
+                        } 
+                    );
+
+                    return index >= 0 ? _owner._items[index].Item : null;
                 }
             }
 
@@ -195,8 +201,14 @@ namespace Platinum
                 {
                     _updatingSelectedItem = true;
                     Debug.Assert( value == null || 
-                        _items.Count( x => x.Item == value ) == 1 );
-
+                        _items.FindAll( 
+                            delegate( ItemEx item )
+                            {
+                                return item.Item == value;
+                            } 
+                            ).Count == 1 
+                        );
+                        
                     if ( _selectedItem != null )
                     {
                         _selectedItem.IsSelected = false;
@@ -245,7 +257,13 @@ namespace Platinum
 
         void _nameTextBox_Click( object sender, EventArgs e )
         {
-            PropertyGridItem item = _items.Single( x => x.NameLabel == sender ).Item;
+            PropertyGridItem item =
+                _items.Find(
+                    delegate( ItemEx itemEx )
+                    {
+                        return itemEx.NameLabel == sender;
+                    }
+                    ).Item;
 
             SelectedItem = item;
         }
@@ -285,9 +303,9 @@ namespace Platinum
         #region Private Methods
         PropertyGridItem _addItem( String name, PropertyEditorBase propertyEditor )
         {
-            Debug.Assert( !_items.Any( x => x.Item.Name == name ) );
+            Debug.Assert( Items[Name] == null );
 
-            int y = _items.Sum( x => x.Item.EditorPanel.Height + 1 );
+            int y = _calculateItemHeight();
 
             Label nameLabel = new Label();
             _splitContainer.Panel1.Controls.Add( nameLabel );
@@ -340,9 +358,11 @@ namespace Platinum
 
         void _removeItem( PropertyGridItem item )
         {
-            Debug.Assert( _items.Count( x => x.Item == item ) == 1 );
+            Debug.Assert( Items[item.Name] != null );
 
-            int index = _items.FindIndex( x => x.Item == item );
+            int index = _items.FindIndex( 
+                delegate( ItemEx itemEx ) { return item == itemEx.Item; }
+                );
 
             _splitContainer.Panel1.Controls.Remove( _items[index].NameLabel );
             _items[index].NameLabel.Dispose();
@@ -364,9 +384,9 @@ namespace Platinum
 
         void _clearItems()
         {
-            while ( _items.Any() )
+            while ( _items.Count != 0 )
             {
-                _removeItem( _items.Last().Item );
+                _removeItem( _items[_items.Count-1].Item );
             }
         }
 
@@ -386,7 +406,18 @@ namespace Platinum
 
         int _calculateExpandedHeight()
         {
-            int h = _titelLabel.Height + _items.Sum( x => x.Item.EditorPanel.Height + 1 );
+            return _titelLabel.Height + _calculateItemHeight();
+        }
+
+        int _calculateItemHeight()
+        {
+            int h = 0;
+
+            foreach ( ItemEx item in _items )
+            {
+                h += item.Item.EditorPanel.Height + 1;
+            }
+
             return h;
         }
 

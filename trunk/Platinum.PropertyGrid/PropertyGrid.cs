@@ -27,7 +27,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -50,7 +49,12 @@ namespace Platinum
             {
                 get 
                 { 
-                    return _owner._sections.SingleOrDefault( x => x.SectionName == name ); 
+                    return _owner._sections.Find( 
+                        delegate( PropertyGridSection section )
+                        {
+                            return section.SectionName == name;
+                        }
+                        );
                 }
             }
 
@@ -84,7 +88,10 @@ namespace Platinum
             
             public IEnumerator<IPropertyGridSection> GetEnumerator()
             {
-                return _owner._sections.Cast<IPropertyGridSection>().GetEnumerator();
+                foreach ( PropertyGridSection section in _owner._sections )
+                {
+                    yield return section;
+                }
             }
 
             System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -258,12 +265,13 @@ namespace Platinum
         #region Private Methods
         PropertyGridSection _addSection( String sectionName )
         {
-            Debug.Assert( !_sections.Any( x => x.SectionName == sectionName ) );
+            Debug.Assert( Items[sectionName] == null );
+            
 
             PropertyGridSection section = new PropertyGridSection();
             section.SectionName = sectionName;
 
-            int y = _sections.Sum( sec => sec.Height );
+            int y = _calculateSectionsHeight();
 
             _sections.Add( section );
 
@@ -285,10 +293,9 @@ namespace Platinum
 
         void _removeSection( String name )
         {
-            PropertyGridSection section =
-                _sections.SingleOrDefault( x => x.SectionName == name );
+            PropertyGridSection section = (PropertyGridSection) Items[name];
 
-            Debug.Assert( _sections.Contains( section ) );
+            Debug.Assert( section != null && _sections.Contains( section ) );
 
             section.SizeChanged -= _section_SizeChanged;
             _sections.Remove( section );
@@ -300,15 +307,15 @@ namespace Platinum
 
         void _clearSections()
         {
-            while ( _sections.Any() )
+            while ( _sections.Count != 0 )
             {
-                _removeSection( _sections.Last().SectionName );
+                _removeSection( _sections[_sections.Count-1].SectionName );
             }
         }
 
         void _updateSectionPositions()
         {
-            int height = _sections.Sum( section => section.Height );
+            int height = _calculateSectionsHeight();
 
             if ( _sectionPanel.Height != height )
             {
@@ -420,6 +427,18 @@ namespace Platinum
                 _sectionPanelScrollBar.Value -= offset;
                 _sectionPanel.Top += offset;
             }
+        }
+
+        int _calculateSectionsHeight()
+        {
+            int h = 0;
+
+            foreach ( PropertyGridSection section in _sections )
+            {
+                h += section.Height;
+            }
+
+            return h;
         }
         #endregion
     }

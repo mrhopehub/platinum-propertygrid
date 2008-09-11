@@ -27,7 +27,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Collections;
@@ -43,7 +42,7 @@ namespace Platinum.PropertyEditors
         {
             object[] _values = new object[] { false, true };
 
-            public event Action SourceChanged
+            public event EventHandler SourceChanged
             {
                 add { }
                 remove { }
