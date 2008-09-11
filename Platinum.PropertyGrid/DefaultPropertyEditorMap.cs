@@ -24,7 +24,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Reflection;
@@ -43,16 +42,25 @@ namespace Platinum
 
             foreach ( Assembly a in AppDomain.CurrentDomain.GetAssemblies() )
             {
-                IEnumerable<Type> classes = a.GetTypes().Where( x => x.IsClass );
-                IEnumerable<Type> editors = classes.Where( x => x.GetCustomAttributes( attributeType, true ).Length > 0 );
-
-                foreach ( Type editor in editors )
+                foreach ( Type type in a.GetTypes() )
                 {
-                    var attributes = editor.GetCustomAttributes( attributeType, true ).Cast<IsDefaultPropertyEditorOfAttribute>();
+                    if ( !type.IsClass )
+                        continue;
 
-                    foreach ( var attribute in attributes )
+                    Object[] attributes = type.GetCustomAttributes( attributeType, true );
+
+                    if ( attributes.Length == 0 )
+                        continue;
+
+                    foreach ( Object attribute in attributes )
                     {
-                        _map.Add( attribute.TargetType, editor );
+                        IsDefaultPropertyEditorOfAttribute dpAttribute =
+                            attribute as IsDefaultPropertyEditorOfAttribute;
+                        
+                        if ( dpAttribute != null )
+                        {
+                            _map.Add( dpAttribute.TargetType, type );
+                        }
                     }
                 }
             }

@@ -27,7 +27,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -40,7 +39,7 @@ namespace Platinum.PropertyEditors
         #region IItemSource interface
         public interface IItemSource
         {
-            event Action SourceChanged;
+            event EventHandler SourceChanged;
             IEnumerable Items { get; }
         }
         #endregion
@@ -82,7 +81,7 @@ namespace Platinum.PropertyEditors
                     _itemSource.SourceChanged += _updateItemList;
                 }
 
-                _updateItemList();
+                _updateItemList( null, EventArgs.Empty );
 
                 if ( _propertyDescriptor.PropertyOwner != null )
                 {
@@ -102,7 +101,7 @@ namespace Platinum.PropertyEditors
             set 
             { 
                 _nameProvider = value;
-                _updateItemList();
+                _updateItemList( null, EventArgs.Empty );
             }
         }
 
@@ -215,7 +214,6 @@ namespace Platinum.PropertyEditors
         void _comboBox_DropDownClosed( object sender, EventArgs e )
         {
             _revertValue();
-            //_textLabel.Visible = true;
         }
 
         void _comboBox_Enter( object sender, EventArgs e )
@@ -267,14 +265,13 @@ namespace Platinum.PropertyEditors
         {
             if ( e.KeyCode == Keys.Enter )
             {
-                //_commitValue();
                 SendKeys.Send( "{Tab}" );
             }
         }
         #endregion
 
         #region Private Methods
-        void _updateItemList()
+        void _updateItemList( Object sender, EventArgs e )
         {
             Object selectedItem = _comboBox.SelectedIndex >= 0 ?
                 _items[_comboBox.SelectedIndex] : null;
@@ -284,19 +281,41 @@ namespace Platinum.PropertyEditors
             if ( _itemSource != null )
             {
                 _items.Clear();
-                _items.AddRange( _itemSource.Items.Cast<Object>() );
+                foreach ( Object item in _itemSource.Items )
+                {
+                    _items.Add( item );
+                }
 
                 if ( _nameProvider != null )
                 {
-                    _comboBox.Items.AddRange( _items.Select( x => _nameProvider( x ) ).ToArray() );
+                    foreach ( Object item in _items )
+                    {
+                        _comboBox.Items.Add( _nameProvider( item ) );
+                    }
                 }
                 else
                 {
-                    _comboBox.Items.AddRange( _items.Select( x => x.ToString() ).ToArray() );
+                    foreach ( Object item in _items )
+                    {
+                        _comboBox.Items.Add( item.ToString() );
+                    }
                 }
             }
 
-            if ( selectedItem != null && !_items.Any( x => x.Equals( selectedItem ) ) )
+            if ( selectedItem == null )
+                return;
+
+            bool selectedItemContainedNow = false;
+
+            foreach ( Object item in _items )
+            {
+                if ( item.Equals( selectedItem ) )
+                {
+                    selectedItemContainedNow = true;
+                }
+            }
+
+            if ( !selectedItemContainedNow )
             {
                 if ( SelectedItemRemovedFromSource != null )
                 { 
@@ -322,7 +341,7 @@ namespace Platinum.PropertyEditors
 
         void _selectItem( Object item )
         {
-            int index = _items.FindIndex( x => x.Equals( item ) );
+            int index = _items.FindIndex( delegate( Object o ) { return o.Equals( item ); } );
             _comboBox.SelectedIndex = index;
         }
 

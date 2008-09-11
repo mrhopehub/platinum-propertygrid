@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle( "Platinum.PropertyGrid Example" )]
 [assembly: AssemblyDescription( "" )]
 [assembly: AssemblyConfiguration( "" )]
-[assembly: AssemblyCompany( "Hewlett-Packard" )]
+[assembly: AssemblyCompany( "" )]
 [assembly: AssemblyProduct( "Platinum.PropertyGrid Example" )]
-[assembly: AssemblyCopyright( "Copyright © Hewlett-Packard 2008" )]
+[assembly: AssemblyCopyright( "Copyright © Michael Woerister 2008" )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 

@@ -24,18 +24,19 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Diagnostics;
 
 namespace Platinum.Validators
 {
+    public delegate Object DefaultValueFactoryDelegate();
+
     public class DefaultValidator : IValidator
     {
         #region Variables
         static Dictionary<Type, Type> _defaultValidators;
-        static Dictionary<Type, Func<Object>> _defaultValueFactories;
+        static Dictionary<Type, DefaultValueFactoryDelegate> _defaultValueFactories;
 
         TypeConverter _typeConverter;
         String _message = "";
@@ -57,7 +58,7 @@ namespace Platinum.Validators
         {
             get
             {
-                Func<Object> factory;
+                DefaultValueFactoryDelegate factory;
 
                 if ( _defaultValueFactories.TryGetValue( _validatedType, out factory ) )
                 {
@@ -135,13 +136,15 @@ namespace Platinum.Validators
 
         public static void RegisterDefaultValidator( Type type, Type validatorType )
         {
-            Debug.Assert( validatorType.GetInterfaces().Contains( typeof( IValidator ) ) );
+            Debug.Assert( ContainsInterface( validatorType.GetInterfaces(), 
+                typeof( IValidator ) ) );
             Debug.Assert( !_defaultValidators.ContainsKey( type ) );
 
             _defaultValidators[type] = validatorType;
         }
 
-        public static void RegisterDefaultValueFactory( Type type, Func<Object> factory )
+        public static void RegisterDefaultValueFactory( Type type, 
+            DefaultValueFactoryDelegate factory )
         {
             Debug.Assert( !_defaultValueFactories.ContainsKey( type ) );
 
@@ -153,10 +156,23 @@ namespace Platinum.Validators
         static DefaultValidator()
         {
             _defaultValidators = new Dictionary<Type, Type>();
-            _defaultValueFactories = new Dictionary<Type, Func<Object>>();
+            _defaultValueFactories = new Dictionary<Type, DefaultValueFactoryDelegate>();
 
             RegisterDefaultValidator( typeof( float ), typeof( FloatValidator ) );
-            RegisterDefaultValueFactory( typeof( String ), () => "" );
+            RegisterDefaultValueFactory( typeof( String ), delegate { return ""; } );
+        }
+        #endregion
+
+        #region Private Methods
+        static bool ContainsInterface( Type[] types, Type iface )
+        {
+            foreach ( Type type in types )
+            {
+                if ( type == iface )
+                    return true;
+            }
+
+            return false;
         }
         #endregion
     }
