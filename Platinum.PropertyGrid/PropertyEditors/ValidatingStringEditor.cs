@@ -1,5 +1,6 @@
 #region MIT
 /*
+Platinum.PropertyGrid (http://code.google.com/p/platinum-propertygrid/)
 Copyright (c) 2008 Michael Woerister
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
