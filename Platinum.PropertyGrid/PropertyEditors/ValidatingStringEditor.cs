@@ -32,7 +32,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace Platinum
+namespace Platinum.PropertyEditors
 {
     public partial class ValidatingStringEditor : PropertyEditorBase
     {

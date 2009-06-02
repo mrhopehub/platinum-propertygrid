@@ -23,7 +23,7 @@ THE SOFTWARE.
 */
 #endregion
 
-namespace Platinum
+namespace Platinum.PropertyEditors
 {
     partial class ValidatingStringEditor 
     {
