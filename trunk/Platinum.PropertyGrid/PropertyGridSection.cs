@@ -338,6 +338,16 @@ namespace Platinum
             PropertyGridItem item = new PropertyGridItem( editorPanel, nameLabel );
 
             item.Owner = this;
+
+            item.EditorPanel.Height = propertyEditor.Height;
+            propertyEditor.Width = item.EditorPanel.Width;
+            propertyEditor.Anchor =
+                System.Windows.Forms.AnchorStyles.Top |
+                System.Windows.Forms.AnchorStyles.Left |
+                System.Windows.Forms.AnchorStyles.Right;
+
+            editorPanel.Controls.Add( propertyEditor );
+
             propertyEditor.PropertyGridItem = item;
 
             propertyEditor.Enter += delegate( Object sender, EventArgs e )

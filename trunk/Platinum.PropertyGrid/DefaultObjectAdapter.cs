@@ -167,18 +167,8 @@ namespace Platinum
                 editor.PropertyDescriptor = propDesc;
 
                 PropertyGridItem item = section.Items.Add( desc.Name, editor );
-
-                item.EditorPanel.Height = editor.Height;
-                editor.Width = item.EditorPanel.Width;
-                editor.Anchor = 
-                    System.Windows.Forms.AnchorStyles.Top |
-                    System.Windows.Forms.AnchorStyles.Left | 
-                    System.Windows.Forms.AnchorStyles.Right;
-
                 item.Description = desc.Description;
                 
-                item.EditorPanel.Controls.Add( editor );
-
                 new PropertyAdapter( propDesc, editor );
             }
         }
