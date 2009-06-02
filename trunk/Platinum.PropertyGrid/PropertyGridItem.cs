@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Platinum
 {
@@ -40,13 +41,19 @@ namespace Platinum
         Label _nameLabel;
         String _description;
         IPropertyGridSection _owner;
+        PropertyEditorBase _propertyEditor;
         #endregion
 
         #region Constructor / Finalizer
-        internal PropertyGridItem( Panel editorPanel, Label nameLabel ) 
+        internal PropertyGridItem( Panel editorPanel, Label nameLabel, PropertyEditorBase editor ) 
         {
+            Debug.Assert( editorPanel != null );
+            Debug.Assert( nameLabel != null );
+            Debug.Assert( editor != null );
+
             _editorPanel = editorPanel;
             _nameLabel = nameLabel;
+            _propertyEditor = editor;
         }
 
         ~PropertyGridItem()
@@ -70,6 +77,11 @@ namespace Platinum
         public Panel EditorPanel
         {
             get { return _editorPanel; }
+        }
+
+        public PropertyEditorBase PropertyEditor
+        {
+            get { return _propertyEditor; }
         }
 
         public String Description
