@@ -305,6 +305,8 @@ namespace Platinum
         PropertyGridItem _addItem( String name, PropertyEditorBase propertyEditor )
         {
             Debug.Assert( Items[Name] == null );
+            Debug.Assert( !String.IsNullOrEmpty( name ) );
+            Debug.Assert( propertyEditor != null );
 
             int y = _calculateItemHeight();
 
@@ -335,7 +337,7 @@ namespace Platinum
             editorPanel.BackColor = Color.White;
             editorPanel.SizeChanged += new EventHandler( _editorPanel_SizeChanged );
 
-            PropertyGridItem item = new PropertyGridItem( editorPanel, nameLabel );
+            PropertyGridItem item = new PropertyGridItem( editorPanel, nameLabel, propertyEditor );
 
             item.Owner = this;
 
