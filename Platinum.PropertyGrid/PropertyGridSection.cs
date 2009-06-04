@@ -311,8 +311,7 @@ namespace Platinum
             int y = _calculateItemHeight();
 
             Label nameLabel = new Label();
-            _splitContainer.Panel1.Controls.Add( nameLabel );
-
+            
             nameLabel.AutoSize = false;
             nameLabel.Location = new Point( 0, y );
             nameLabel.Size = new Size( _splitContainer.Panel1.Width, DEFAULT_ITEM_HEIGHT - 1 );
@@ -324,18 +323,20 @@ namespace Platinum
             nameLabel.Font = new Font( "Segoe UI", 8.25f, FontStyle.Regular );
             nameLabel.UseCompatibleTextRendering = true;
 
+            _splitContainer.Panel1.Controls.Add( nameLabel );
+
             ToolTip nameLabelToolTip = new ToolTip();
             nameLabelToolTip.SetToolTip( nameLabel, nameLabel.Text );
 
             Panel editorPanel = new Panel();
-            _splitContainer.Panel2.Controls.Add( editorPanel );
-
+            
             editorPanel.Location = new Point( 0, y );
             editorPanel.Size = new Size( _splitContainer.Panel2.ClientSize.Width, DEFAULT_ITEM_HEIGHT - 1 );
             editorPanel.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             editorPanel.AutoScroll = false;
             editorPanel.BackColor = Color.White;
             editorPanel.SizeChanged += new EventHandler( _editorPanel_SizeChanged );
+            _splitContainer.Panel2.Controls.Add( editorPanel );
 
             PropertyGridItem item = new PropertyGridItem( editorPanel, nameLabel, propertyEditor );
 
@@ -458,7 +459,6 @@ namespace Platinum
             foreach ( ItemEx item in _items )
             {
                 item.NameLabel.Top = y;
-                item.NameLabel.Height = item.Item.EditorPanel.Height;
                 item.Item.EditorPanel.Top = y;
 
                 y += item.Item.EditorPanel.Height + 1;

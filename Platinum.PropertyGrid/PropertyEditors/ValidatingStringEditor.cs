@@ -87,6 +87,8 @@ namespace Platinum.PropertyEditors
             }
             set
             {
+                Debug.Assert( _validator != null );
+
                 if ( value != _propertyDescriptor )
                 {
                     _propertyDescriptor = value;
